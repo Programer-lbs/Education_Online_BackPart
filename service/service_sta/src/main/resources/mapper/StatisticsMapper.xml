@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.edu.mapper.StatisticsMapper">
+    <select id="statisticsData" resultType="org.edu.bean.StatisticsDaily">
+        select date_calculated,#{type} as data from statistics_daily
+        where date_calculated between #{start}
+        and #{end} order by date_calculated  asc
+    </select>
+</mapper>

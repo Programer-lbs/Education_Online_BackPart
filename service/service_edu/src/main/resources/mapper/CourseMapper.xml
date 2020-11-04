@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.edu.mapper.CourseMapper">
+    <select id="sureCourseInfo" resultType="org.edu.bean.vo.CourseSureInfoVo">
+        select c.id, c.cover,c.title,c.price,s1.title twosubject,s2.title onesubject,d.description,t.name
+        from edu_course c,edu_subject s1,edu_subject s2,edu_teacher t,edu_course_description d
+        where c.teacher_id = t.id
+        and c.subject_id = s1.id
+        and s1.parent_id = s2.id
+        and c.id = d.id
+        and c.id = #{courseId}
+    </select>
+
+    <select id="queryCourse" resultType="org.edu.bean.vo.CourseSureInfoVo">
+        select ec.id, ec.cover,ec.title,ec.price,es1.title onesubject,es2.title twosubject,ecd.description,et.name
+        from edu_course ec left join edu_teacher et  on ec.teacher_id = et.id
+        left join edu_subject es2 on ec.subject_id = es2.id
+        left join edu_subject es1 on es2.parent_id = es1.id
+        left join edu_course_description ecd on ec.id = ecd.id
+        where ec.title like #{keyword} or es1.title like #{keyword}
+        or es2.title like #{keyword} or et.name like #{keyword}
+    </select>
+</mapper>
